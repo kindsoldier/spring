@@ -56,7 +56,7 @@ AC_PATH_PROG([java],[java])
 AC_PATH_PROG([JAVA],[java])
 
 
-AC_CHECK_PROG(HAVE_DAEMON, daemon, true, false, /bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin )
+AC_CHECK_PROG(HAVE_DAEMON, daemon, true, false, /bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin )
 if test "x$HAVE_DAEMON" = "xfalse"; then
 	AC_MSG_ERROR([Requested program daemon not found])
 fi

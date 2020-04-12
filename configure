@@ -2773,7 +2773,7 @@ else
   ac_cv_prog_HAVE_DAEMON="$HAVE_DAEMON" # Let the user override the test.
 else
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in /bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin
+for as_dir in /bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
