@@ -5,12 +5,12 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
-import { HomeComponent } from './home/home.component'
+import { IncomingComponent } from './incoming/incoming.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { PageGuard } from './page.guard'
 
 export const routes: Routes = [
-    { path: "", component: HomeComponent, canActivate: [PageGuard],  data: { name: "Home" } },
+    { path: "", component: IncomingComponent, canActivate: [PageGuard],  data: { name: "Incoming" } },
     { path: "notfound", component: NotFoundComponent, canActivate: [PageGuard] },
     { path: "**", component: NotFoundComponent, canActivate: [PageGuard] },
 ]

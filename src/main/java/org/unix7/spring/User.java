@@ -14,11 +14,11 @@ import com.fasterxml.jackson.annotation.*;
 //import java.util.Set;
 
 public class User {
-    private Long id;
+    private int id;
     public String password;
     public String username;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
     public String getPassword() {
@@ -28,7 +28,7 @@ public class User {
         return username;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
     public void setUsername(String username) {
@@ -38,7 +38,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String username, String password) {
+    public User(int id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;

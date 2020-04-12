@@ -17,19 +17,19 @@ public class UserController {
     private UserModel userModel;
 
     public static class ListRequest {
-        private Long offset;
-        private Long limit;
+        private int offset;
+        private int limit;
 
-        public Long getOffset() {
+        public int getOffset() {
             return offset;
         }
-        public void setOffset(Long id) {
+        public void setOffset(int id) {
             this.offset = offset;
         }
-        public Long getLimit() {
+        public int getLimit() {
             return  limit;
         }
-        public void setLimit(Long limit) {
+        public void setLimit(int limit) {
             this.limit = limit;
         }
     }
@@ -59,11 +59,11 @@ public class UserController {
     }
 
     public static class GetRequest {
-        private Long id;
-        public Long getId() {
+        private int id;
+        public int getId() {
             return id;
         }
-        public void setId(Long id) {
+        public void setId(int id) {
             this.id = id;
         }
     }
@@ -77,11 +77,11 @@ public class UserController {
     }
 
     public static class DeleteRequest {
-        private Long id;
-        public Long getId() {
+        private int id;
+        public int getId() {
             return id;
         }
-        public void setId(Long id) {
+        public void setId(int id) {
             this.id = id;
         }
     }

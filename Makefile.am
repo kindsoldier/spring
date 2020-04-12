@@ -7,10 +7,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies no-installinfo
 JAR = build/libs/lorem-0.0.1.jar
 DATABASE = lorem.db
 
-if HAVE_GRADLE
-
-GRADLE = $(GRADLE)
-#SQLITE3 = $(SQLITE3)
+if DEVEL_MODE
 
 all: $(JAR)
 	$(GRADLE) build
@@ -19,8 +16,8 @@ rebuild:
 	$(GRADLE) build
 
 migrate:
-	sqlite3 $(DATABASE) < schema/schema-sqlite.sql
-	sqlite3 $(DATABASE) < schema/data.sql
+	$(SQLITE3) $(DATABASE) < schema/schema-sqlite.sql
+	$(SQLITE3) $(DATABASE) < schema/data.sql
 
 else
 all:
@@ -55,6 +52,9 @@ clean-local:
 
 install-data-local:
 	test -z $(DESTDIR)$(APP_LIBDIR) || $(MKDIR_P) $(DESTDIR)$(APP_LIBDIR)
+	test -z $(DESTDIR)$(APP_DATABASEDIR) || $(MKDIR_P) $(DESTDIR)$(APP_DATABASEDIR)
+
 	cp -r $(JAR) $(DESTDIR)$(APP_LIBDIR)
+	cp -r $(DATABASE) $(DESTDIR)$(APP_DATABASEDIR)
 
 #EOF

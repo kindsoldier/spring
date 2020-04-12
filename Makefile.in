@@ -102,7 +102,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = lorem
+CONFIG_CLEAN_FILES = lorem src/main/resources/application.properties
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -156,6 +156,7 @@ am__can_run_installinfo = \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/lorem.in \
+	$(top_srcdir)/src/main/resources/application.properties.in \
 	config.guess config.sub install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
@@ -177,23 +178,28 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+APP_DATABASEDIR = @APP_DATABASEDIR@
 APP_LIBDIR = @APP_LIBDIR@
+APP_LOGDIR = @APP_LOGDIR@
+APP_RUNDIR = @APP_RUNDIR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CP = @CP@
 CYGPATH_W = @CYGPATH_W@
+DAEMON = @DAEMON@
 DEFS = @DEFS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
-@HAVE_GRADLE_TRUE@GRADLE = $(GRADLE)
 GRADLE = @GRADLE@
 HAVE_CP = @HAVE_CP@
+HAVE_DAEMON = @HAVE_DAEMON@
 HAVE_GRADLE = @HAVE_GRADLE@
 HAVE_JAVA = @HAVE_JAVA@
 HAVE_NPM = @HAVE_NPM@
+HAVE_SQLITE3 = @HAVE_SQLITE3@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -217,6 +223,7 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 ROOT_GROUP = @ROOT_GROUP@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SQLITE3 = @SQLITE3@
 STRIP = @STRIP@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -226,7 +233,10 @@ abs_top_srcdir = @abs_top_srcdir@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
+app_databasedir = @app_databasedir@
 app_libdir = @app_libdir@
+app_logdir = @app_logdir@
+app_rundir = @app_rundir@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -234,6 +244,7 @@ build_cpu = @build_cpu@
 build_os = @build_os@
 build_vendor = @build_vendor@
 builddir = @builddir@
+daemon = @daemon@
 datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
@@ -264,6 +275,7 @@ program_transform_name = @program_transform_name@
 psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+sqlite3 = @sqlite3@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -273,7 +285,7 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies no-installinfo
 JAR = build/libs/lorem-0.0.1.jar
 DATABASE = lorem.db
-@HAVE_GRADLE_FALSE@sbin_SCRIPTS = lorem
+@DEVEL_MODE_FALSE@sbin_SCRIPTS = lorem
 EXTRA_DIST = \
 	README.md \
 	src \
@@ -326,6 +338,8 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 lorem: $(top_builddir)/config.status $(srcdir)/lorem.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+src/main/resources/application.properties: $(top_builddir)/config.status $(top_srcdir)/src/main/resources/application.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-sbinSCRIPTS: $(sbin_SCRIPTS)
 	@$(NORMAL_INSTALL)
@@ -660,21 +674,20 @@ uninstall-am: uninstall-sbinSCRIPTS
 
 .PRECIOUS: Makefile
 
-#SQLITE3 = $(SQLITE3)
 
-@HAVE_GRADLE_TRUE@all: $(JAR)
-@HAVE_GRADLE_TRUE@	$(GRADLE) build
+@DEVEL_MODE_TRUE@all: $(JAR)
+@DEVEL_MODE_TRUE@	$(GRADLE) build
 
-@HAVE_GRADLE_TRUE@rebuild:
-@HAVE_GRADLE_TRUE@	$(GRADLE) build
+@DEVEL_MODE_TRUE@rebuild:
+@DEVEL_MODE_TRUE@	$(GRADLE) build
 
-@HAVE_GRADLE_TRUE@migrate:
-@HAVE_GRADLE_TRUE@	sqlite3 $(DATABASE) < schema/schema-sqlite.sql
-@HAVE_GRADLE_TRUE@	sqlite3 $(DATABASE) < schema/data.sql
+@DEVEL_MODE_TRUE@migrate:
+@DEVEL_MODE_TRUE@	$(SQLITE3) $(DATABASE) < schema/schema-sqlite.sql
+@DEVEL_MODE_TRUE@	$(SQLITE3) $(DATABASE) < schema/data.sql
 
-@HAVE_GRADLE_FALSE@all:
-@HAVE_GRADLE_FALSE@migrate:
-@HAVE_GRADLE_FALSE@rebuild:
+@DEVEL_MODE_FALSE@all:
+@DEVEL_MODE_FALSE@migrate:
+@DEVEL_MODE_FALSE@rebuild:
 
 run: $(JAR)
 	$(JAVA) -jar $(JAR)
@@ -684,7 +697,10 @@ clean-local:
 
 install-data-local:
 	test -z $(DESTDIR)$(APP_LIBDIR) || $(MKDIR_P) $(DESTDIR)$(APP_LIBDIR)
+	test -z $(DESTDIR)$(APP_DATABASEDIR) || $(MKDIR_P) $(DESTDIR)$(APP_DATABASEDIR)
+
 	cp -r $(JAR) $(DESTDIR)$(APP_LIBDIR)
+	cp -r $(DATABASE) $(DESTDIR)$(APP_DATABASEDIR)
 
 #EOF
 

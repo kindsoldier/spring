@@ -39,6 +39,9 @@ AC_ARG_ENABLE([devel-mode], AS_HELP_STRING([--enable-devel-mode], [Enable develo
 AS_IF([test "x$enable_devel_mode" = "xyes"], [
     SRCDIR=`pwd`
     enable_devel_mode=yes
+    AM_CONDITIONAL(DEVEL_MODE, true)
+], [
+    AM_CONDITIONAL(DEVEL_MODE, false)
 ])
 
 test "x$prefix" == "xNONE" && prefix=$ac_default_prefix
@@ -51,6 +54,15 @@ if test "x$HAVE_JAVA" = "xfalse"; then
 fi
 AC_PATH_PROG([java],[java])
 AC_PATH_PROG([JAVA],[java])
+
+
+AC_CHECK_PROG(HAVE_DAEMON, daemon, true, false, /bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin )
+if test "x$HAVE_DAEMON" = "xfalse"; then
+	AC_MSG_ERROR([Requested program daemon not found])
+fi
+AC_PATH_PROG([daemon],[daemon])
+AC_PATH_PROG([DAEMON],[daemon])
+
 
 AS_IF([test "x$enable_devel_mode" = "xyes"], [
 
@@ -71,11 +83,120 @@ AS_IF([test "x$enable_devel_mode" = "xyes"], [
     AC_PATH_PROG([NPM],[npm])
     AC_PATH_PROG([npm],[npm])
     AM_CONDITIONAL(HAVE_NPM, true)
+
+
+    AC_CHECK_PROG(HAVE_SQLITE3, sqlite3, true, false, /bin /usr/local/bin /usr/bin)
+    if test "x$HAVE_SQLITE3" = "xfalse"; then
+	AC_MSG_ERROR([Requested program sqlite3 not found])
+    fi
+    AC_PATH_PROG([SQLITE3],[sqlite3])
+    AC_PATH_PROG([sqlite3],[sqlite3])
+    AM_CONDITIONAL(HAVE_SQLITE3, true)
 ],
 [
     AM_CONDITIONAL(HAVE_GRADLE, false)
     AM_CONDITIONAL(HAVE_NPM, false)
+    AM_CONDITIONAL(HAVE_SQLITE3, false)
+
 ])
+
+dnl --------------------------------------------------------------------------------------
+AC_ARG_WITH(logdir,
+	AS_HELP_STRING([--with-logdir=PATH],[set file path for source logdir (default: /var/log/${PACKAGE}/${PACKAGE}.log)]),
+	[ if test ! -z "$with_logdir" ; then
+		case $with_logdir in
+			/*)
+				APP_LOGDIR="$with_logdir"
+				;;
+			*)
+                                AC_MSG_ERROR(You must specify an absolute path to --with-logdir=PATH)
+				;;
+		esac
+	else
+		APP_LOGDIR="/var/log/${PACKAGE}"
+	fi ],
+	[ 
+	APP_LOGDIR="/var/log/${PACKAGE}"
+	])
+
+AS_IF([test "x$enable_devel_mode" = "xyes"], [
+	APP_LOGDIR="${SRCDIR}/log"
+])
+
+AC_MSG_NOTICE(app_logdir set as ${APP_LOGDIR})
+
+AC_DEFINE_UNQUOTED(APP_LOGDIR, "$APP_LOGDIR", [location of ${PACKAGE} logdir])
+AC_SUBST(APP_LOGDIR, "$APP_LOGDIR")
+
+AC_DEFINE_UNQUOTED(app_logdir, "$APP_LOGDIR", [location of ${PACKAGE} logdir])
+AC_SUBST(app_logdir, "$APP_LOGDIR")
+
+dnl --------------------------------------------------------------------------------------
+AC_ARG_WITH(rundir,
+	AS_HELP_STRING([--with-rundir=PATH],[set file path for source rundir (default: /var/run/${PACKAGE})]),
+	[ if test ! -z "$with_rundir" ; then
+		case $with_rundir in
+			/*)
+				APP_RUNDIR="$with_rundir"
+				;;
+			*)
+                                AC_MSG_ERROR(You must specify an absolute path to --with-rundir=PATH)
+				;;
+		esac
+	else
+		APP_RUNDIR="/var/run/${PACKAGE}"
+	fi ],
+	[
+	APP_RUNDIR="/var/run/${PACKAGE}"
+	])
+
+AS_IF([test "x$enable_devel_mode" = "xyes"], [
+	APP_RUNDIR="${SRCDIR}/run"
+])
+
+AC_MSG_NOTICE(app_rundir set as ${APP_RUNDIR})
+
+AC_DEFINE_UNQUOTED(APP_RUNDIR, "$APP_RUNDIR", [location of pid file])
+AC_SUBST(APP_RUNDIR, "$APP_RUNDIR")
+
+AC_DEFINE_UNQUOTED(app_rundir, "$APP_RUNDIR", [location of pid file])
+AC_SUBST(app_rundir, "$APP_RUNDIR")
+
+dnl --------------------------------------------------------------------------------------
+
+default_databasedir="/var/db/$PACKAGE"
+
+AC_ARG_WITH(databasedir,
+	AS_HELP_STRING([--with-databasedir=PATH],[set data directory (default: $default_databasedir)]),
+	[ if test ! -z "$with_databasedir" ; then
+		case $with_databasedir in
+			/*)
+				APP_DATABASEDIR="$with_databasedir"
+				;;
+			*)
+                                AC_MSG_ERROR(You must specify an absolute path to --with-databasedir=PATH)
+				;;
+		esac
+	else
+		APP_DATABASEDIR="$default_databasedir"
+	fi ],
+	[
+	APP_DATABASEDIR="$default_databasedir"
+	])
+
+AS_IF([test "x$enable_devel_mode" = "xyes"], [
+	APP_DATABASEDIR="${SRCDIR}/"
+])
+
+AC_MSG_RESULT(databasedir set as ${APP_DATABASEDIR})
+
+
+AC_DEFINE_UNQUOTED(APP_DATABASEDIR, "$APP_DATABASEDIR", [location of database dir])
+AC_SUBST(APP_DATABASEDIR, "$APP_DATABASEDIR")
+
+AC_DEFINE_UNQUOTED(app_databasedir, "$APP_DATABASEDIR", [location of database dir])
+AC_SUBST(app_databasedir, "$APP_DATABASEDIR")
+
 
 dnl --------------------------------------------------------------------------------------
 
@@ -121,5 +242,6 @@ dnl AC_SUBST(app_daemonize, "$APP_DAEMONIZE")
 AC_OUTPUT([
     Makefile
     lorem
+    src/main/resources/application.properties
 ])
 dnl EOF

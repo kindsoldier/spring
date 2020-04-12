@@ -586,6 +586,17 @@ ac_subst_vars='LTLIBOBJS
 LIBOBJS
 app_libdir
 APP_LIBDIR
+app_databasedir
+APP_DATABASEDIR
+app_rundir
+APP_RUNDIR
+app_logdir
+APP_LOGDIR
+HAVE_SQLITE3_FALSE
+HAVE_SQLITE3_TRUE
+sqlite3
+SQLITE3
+HAVE_SQLITE3
 HAVE_NPM_FALSE
 HAVE_NPM_TRUE
 npm
@@ -596,9 +607,14 @@ HAVE_GRADLE_TRUE
 gradle
 GRADLE
 HAVE_GRADLE
+DAEMON
+daemon
+HAVE_DAEMON
 JAVA
 java
 HAVE_JAVA
+DEVEL_MODE_FALSE
+DEVEL_MODE_TRUE
 SYSTEMD_FALSE
 SYSTEMD_TRUE
 LINUX_OS_FALSE
@@ -686,6 +702,9 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_devel_mode
+with_logdir
+with_rundir
+with_databasedir
 with_libdir
 '
       ac_precious_vars='build_alias
@@ -1316,6 +1335,11 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-logdir=PATH      set file path for source logdir (default:
+                          /var/log/${PACKAGE}/${PACKAGE}.log)
+  --with-rundir=PATH      set file path for source rundir (default:
+                          /var/run/${PACKAGE})
+  --with-databasedir=PATH set data directory (default: $default_databasedir)
   --with-libdir=PATH      set file path for source libdir (default:
                           ${PREFIX}/share/${PACKAGE})
 
@@ -2589,6 +2613,25 @@ if test "x$enable_devel_mode" = "xyes"; then :
 
     SRCDIR=`pwd`
     enable_devel_mode=yes
+     if true; then
+  DEVEL_MODE_TRUE=
+  DEVEL_MODE_FALSE='#'
+else
+  DEVEL_MODE_TRUE='#'
+  DEVEL_MODE_FALSE=
+fi
+
+
+else
+
+     if false; then
+  DEVEL_MODE_TRUE=
+  DEVEL_MODE_FALSE='#'
+else
+  DEVEL_MODE_TRUE='#'
+  DEVEL_MODE_FALSE=
+fi
+
 
 fi
 
@@ -2715,6 +2758,130 @@ else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
+
+
+
+
+# Extract the first word of "daemon", so it can be a program name with args.
+set dummy daemon; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_HAVE_DAEMON+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$HAVE_DAEMON"; then
+  ac_cv_prog_HAVE_DAEMON="$HAVE_DAEMON" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in /bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_HAVE_DAEMON="true"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_HAVE_DAEMON" && ac_cv_prog_HAVE_DAEMON="false"
+fi
+fi
+HAVE_DAEMON=$ac_cv_prog_HAVE_DAEMON
+if test -n "$HAVE_DAEMON"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $HAVE_DAEMON" >&5
+$as_echo "$HAVE_DAEMON" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test "x$HAVE_DAEMON" = "xfalse"; then
+	as_fn_error $? "Requested program daemon not found" "$LINENO" 5
+fi
+# Extract the first word of "daemon", so it can be a program name with args.
+set dummy daemon; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_daemon+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $daemon in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_daemon="$daemon" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_daemon="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+daemon=$ac_cv_path_daemon
+if test -n "$daemon"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $daemon" >&5
+$as_echo "$daemon" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+# Extract the first word of "daemon", so it can be a program name with args.
+set dummy daemon; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_DAEMON+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $DAEMON in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_DAEMON="$DAEMON" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_DAEMON="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+DAEMON=$ac_cv_path_DAEMON
+if test -n "$DAEMON"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DAEMON" >&5
+$as_echo "$DAEMON" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
 
 
 
@@ -2983,6 +3150,137 @@ else
 fi
 
 
+
+    # Extract the first word of "sqlite3", so it can be a program name with args.
+set dummy sqlite3; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_HAVE_SQLITE3+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$HAVE_SQLITE3"; then
+  ac_cv_prog_HAVE_SQLITE3="$HAVE_SQLITE3" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in /bin /usr/local/bin /usr/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_HAVE_SQLITE3="true"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_HAVE_SQLITE3" && ac_cv_prog_HAVE_SQLITE3="false"
+fi
+fi
+HAVE_SQLITE3=$ac_cv_prog_HAVE_SQLITE3
+if test -n "$HAVE_SQLITE3"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $HAVE_SQLITE3" >&5
+$as_echo "$HAVE_SQLITE3" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$HAVE_SQLITE3" = "xfalse"; then
+	as_fn_error $? "Requested program sqlite3 not found" "$LINENO" 5
+    fi
+    # Extract the first word of "sqlite3", so it can be a program name with args.
+set dummy sqlite3; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_SQLITE3+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $SQLITE3 in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_SQLITE3="$SQLITE3" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_SQLITE3="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+SQLITE3=$ac_cv_path_SQLITE3
+if test -n "$SQLITE3"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SQLITE3" >&5
+$as_echo "$SQLITE3" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    # Extract the first word of "sqlite3", so it can be a program name with args.
+set dummy sqlite3; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_sqlite3+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $sqlite3 in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_sqlite3="$sqlite3" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_sqlite3="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+sqlite3=$ac_cv_path_sqlite3
+if test -n "$sqlite3"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $sqlite3" >&5
+$as_echo "$sqlite3" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+     if true; then
+  HAVE_SQLITE3_TRUE=
+  HAVE_SQLITE3_FALSE='#'
+else
+  HAVE_SQLITE3_TRUE='#'
+  HAVE_SQLITE3_FALSE=
+fi
+
+
 else
 
      if false; then
@@ -3001,8 +3299,163 @@ else
   HAVE_NPM_FALSE=
 fi
 
+     if false; then
+  HAVE_SQLITE3_TRUE=
+  HAVE_SQLITE3_FALSE='#'
+else
+  HAVE_SQLITE3_TRUE='#'
+  HAVE_SQLITE3_FALSE=
+fi
+
+
 
 fi
+
+
+# Check whether --with-logdir was given.
+if test "${with_logdir+set}" = set; then :
+  withval=$with_logdir;  if test ! -z "$with_logdir" ; then
+		case $with_logdir in
+			/*)
+				APP_LOGDIR="$with_logdir"
+				;;
+			*)
+                                as_fn_error $? "You must specify an absolute path to --with-logdir=PATH" "$LINENO" 5
+				;;
+		esac
+	else
+		APP_LOGDIR="/var/log/${PACKAGE}"
+	fi
+else
+
+	APP_LOGDIR="/var/log/${PACKAGE}"
+
+fi
+
+
+if test "x$enable_devel_mode" = "xyes"; then :
+
+	APP_LOGDIR="${SRCDIR}/log"
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: app_logdir set as ${APP_LOGDIR}" >&5
+$as_echo "$as_me: app_logdir set as ${APP_LOGDIR}" >&6;}
+
+
+cat >>confdefs.h <<_ACEOF
+#define APP_LOGDIR "$APP_LOGDIR"
+_ACEOF
+
+APP_LOGDIR="$APP_LOGDIR"
+
+
+
+cat >>confdefs.h <<_ACEOF
+#define app_logdir "$APP_LOGDIR"
+_ACEOF
+
+app_logdir="$APP_LOGDIR"
+
+
+
+# Check whether --with-rundir was given.
+if test "${with_rundir+set}" = set; then :
+  withval=$with_rundir;  if test ! -z "$with_rundir" ; then
+		case $with_rundir in
+			/*)
+				APP_RUNDIR="$with_rundir"
+				;;
+			*)
+                                as_fn_error $? "You must specify an absolute path to --with-rundir=PATH" "$LINENO" 5
+				;;
+		esac
+	else
+		APP_RUNDIR="/var/run/${PACKAGE}"
+	fi
+else
+
+	APP_RUNDIR="/var/run/${PACKAGE}"
+
+fi
+
+
+if test "x$enable_devel_mode" = "xyes"; then :
+
+	APP_RUNDIR="${SRCDIR}/run"
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: app_rundir set as ${APP_RUNDIR}" >&5
+$as_echo "$as_me: app_rundir set as ${APP_RUNDIR}" >&6;}
+
+
+cat >>confdefs.h <<_ACEOF
+#define APP_RUNDIR "$APP_RUNDIR"
+_ACEOF
+
+APP_RUNDIR="$APP_RUNDIR"
+
+
+
+cat >>confdefs.h <<_ACEOF
+#define app_rundir "$APP_RUNDIR"
+_ACEOF
+
+app_rundir="$APP_RUNDIR"
+
+
+
+default_databasedir="/var/db/$PACKAGE"
+
+
+# Check whether --with-databasedir was given.
+if test "${with_databasedir+set}" = set; then :
+  withval=$with_databasedir;  if test ! -z "$with_databasedir" ; then
+		case $with_databasedir in
+			/*)
+				APP_DATABASEDIR="$with_databasedir"
+				;;
+			*)
+                                as_fn_error $? "You must specify an absolute path to --with-databasedir=PATH" "$LINENO" 5
+				;;
+		esac
+	else
+		APP_DATABASEDIR="$default_databasedir"
+	fi
+else
+
+	APP_DATABASEDIR="$default_databasedir"
+
+fi
+
+
+if test "x$enable_devel_mode" = "xyes"; then :
+
+	APP_DATABASEDIR="${SRCDIR}/"
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: databasedir set as ${APP_DATABASEDIR}" >&5
+$as_echo "databasedir set as ${APP_DATABASEDIR}" >&6; }
+
+
+
+cat >>confdefs.h <<_ACEOF
+#define APP_DATABASEDIR "$APP_DATABASEDIR"
+_ACEOF
+
+APP_DATABASEDIR="$APP_DATABASEDIR"
+
+
+
+cat >>confdefs.h <<_ACEOF
+#define app_databasedir "$APP_DATABASEDIR"
+_ACEOF
+
+app_databasedir="$APP_DATABASEDIR"
+
+
 
 
 
@@ -3055,7 +3508,7 @@ app_libdir="$APP_LIBDIR"
 
 
 
-ac_config_files="$ac_config_files Makefile lorem"
+ac_config_files="$ac_config_files Makefile lorem src/main/resources/application.properties"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3235,6 +3688,14 @@ if test -z "${SYSTEMD_TRUE}" && test -z "${SYSTEMD_FALSE}"; then
   as_fn_error $? "conditional \"SYSTEMD\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${DEVEL_MODE_TRUE}" && test -z "${DEVEL_MODE_FALSE}"; then
+  as_fn_error $? "conditional \"DEVEL_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${DEVEL_MODE_TRUE}" && test -z "${DEVEL_MODE_FALSE}"; then
+  as_fn_error $? "conditional \"DEVEL_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${HAVE_GRADLE_TRUE}" && test -z "${HAVE_GRADLE_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_GRADLE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -3243,12 +3704,20 @@ if test -z "${HAVE_NPM_TRUE}" && test -z "${HAVE_NPM_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_NPM\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${HAVE_SQLITE3_TRUE}" && test -z "${HAVE_SQLITE3_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_SQLITE3\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${HAVE_GRADLE_TRUE}" && test -z "${HAVE_GRADLE_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_GRADLE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_NPM_TRUE}" && test -z "${HAVE_NPM_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_NPM\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_SQLITE3_TRUE}" && test -z "${HAVE_SQLITE3_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_SQLITE3\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -3816,6 +4285,7 @@ do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lorem") CONFIG_FILES="$CONFIG_FILES lorem" ;;
+    "src/main/resources/application.properties") CONFIG_FILES="$CONFIG_FILES src/main/resources/application.properties" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

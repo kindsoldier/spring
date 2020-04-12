@@ -17,15 +17,15 @@ public class IncomingMapper  implements RowMapper<Incoming> {
     public Incoming mapRow(ResultSet rs, int rowNum) throws SQLException {
         Incoming incoming = new Incoming();
 
-        incoming.setId(rs.getLong("id"));
+        incoming.setId(rs.getInt("id"));
 
-        incoming.setAgentId(rs.getLong("agentId"));
+        incoming.setAgentId(rs.getInt("agentId"));
         incoming.setAgentName(rs.getString("agentName"));
 
-        incoming.setDivisionId(rs.getLong("divisionId"));
+        incoming.setDivisionId(rs.getInt("divisionId"));
         incoming.setDivisionName(rs.getString("divisionName"));
 
-        incoming.setValue(rs.getLong("value"));
+        incoming.setValue(rs.getInt("value"));
 
         return incoming;
     }

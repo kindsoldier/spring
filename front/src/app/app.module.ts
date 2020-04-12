@@ -15,7 +15,7 @@ import { AppComponent } from './app.component'
 import { LayoutComponent } from './layout/layout.component'
 import { MenuComponent } from './menu/menu.component'
 
-import { HomeComponent } from './home/home.component'
+import { IncomingComponent } from './incoming/incoming.component'
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { PagerComponent } from './pager/pager.component';
@@ -26,7 +26,7 @@ import { PagerComponent } from './pager/pager.component';
         LayoutComponent,
         MenuComponent,
         NotFoundComponent,
-        HomeComponent,
+        IncomingComponent,
         PagerComponent,
     ],
     imports: [

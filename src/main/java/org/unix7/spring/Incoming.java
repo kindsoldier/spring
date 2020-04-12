@@ -9,24 +9,24 @@ package org.unix7.spring;
 
 public class Incoming {
 
-    private Long id;
-    private Long agentId;
+    private int id;
+    private int agentId;
     private String agentName;
-    private Long divisionId;
+    private int divisionId;
     private String divisionName;
-    private Long value;
+    private int value;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getAgentId() {
+    public int getAgentId() {
         return agentId;
     }
-    public void setAgentId(Long agentId) {
+    public void setAgentId(int agentId) {
         this.agentId = agentId;
     }
 
@@ -37,10 +37,10 @@ public class Incoming {
         this.agentName = agentName;
     }
 
-    public Long getDivisionId() {
+    public int getDivisionId() {
         return divisionId;
     }
-    public void setDivisionId(Long divisionId) {
+    public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
 
@@ -51,10 +51,10 @@ public class Incoming {
         this.divisionName = divisionName;
     }
 
-    public Long getValue() {
+    public int getValue() {
         return value;
     }
-    public void setValue(Long value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

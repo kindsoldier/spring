@@ -25,8 +25,8 @@ public class UserModel {
         return users;
     }
 
-    public List<User> list(Long limit, Long offset) {
-        String queryString = "SELECT * FROM users LIMIT ? OFFSET ?";
+    public List<User> list(int limit, int offset) {
+        String queryString = "SELECT * FROM users LIMIT $1 OFFSET $2";
         List<User> users = jdbcTemplate.query(
                 queryString,
                 new Object[]{ limit, offset },
@@ -36,23 +36,23 @@ public class UserModel {
     }
 
     public void create(User user) {
-        String queryString = "INSERT INTO users(username, password) VALUES (?, ?)";
+        String queryString = "INSERT INTO users(username, password) VALUES ($1, $2)";
         jdbcTemplate.update(queryString, new Object[]{ user.getUsername(), user.getPassword() });
     }
 
-    public void update(Long id, User user) {
-        String queryString = "UPDATE users(username, password) SET (?, ?) WHERE id = ?";
+    public void update(int id, User user) {
+        String queryString = "UPDATE users(username, password) SET ($1, $2) WHERE id = $3";
         jdbcTemplate.update(queryString, new Object[]{ user.getUsername(), user.getPassword(), id });
     }
 
-    public User get(Long id) {
-        String queryString = "SELECT * FROM users WHERE id = ?";
+    public User get(int id) {
+        String queryString = "SELECT * FROM users WHERE id = $1";
         User user = jdbcTemplate.queryForObject(queryString, new Object[]{ id }, new UserMapper());
         return user;
     }
 
-    public void delete(Long id) {
-        String queryString = "DELETE FROM users WHERE id = ?";
+    public void delete(int id) {
+        String queryString = "DELETE FROM users WHERE id = $1";
         jdbcTemplate.update(queryString, new Object[]{ id });
     }
 
