@@ -1,0 +1,12 @@
+*~
+*.geany
+.gradle/
+.mvn/
+.idea/
+
+build
+Makefile
+config.status
+autom4te.cache/
+*.log
+lorem

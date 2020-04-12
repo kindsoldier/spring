@@ -1,0 +1,5 @@
+#!/bin/sh
+
+@JAVA@ -jar @APP_LIBDIR@/@PACKAGE_NAME@-@PACKAGE_VERSION@.jar
+
+#EOF

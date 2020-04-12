@@ -1,0 +1,26 @@
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS incomings;
+CREATE TABLE incomings (
+    id INTEGER PRIMARY KEY,
+    agentId  INTEGER NOT NULL,
+    value  INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS agents;
+CREATE TABLE agents (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    divisionId INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS divisions;
+CREATE TABLE divisions (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
