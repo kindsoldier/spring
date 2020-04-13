@@ -40,7 +40,7 @@ Gradle: 6.3
 
 После запуска приложение доступно по порту 8080
 
-## Doker file
+## Docker file
 
     FROM debian:latest
     RUN apt-get -y update
