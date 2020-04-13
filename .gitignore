@@ -4,7 +4,6 @@
 .mvn/
 .idea/
 
-
 Makefile
 config.status
 autom4te.cache/
