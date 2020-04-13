@@ -26,6 +26,8 @@ Gradle: 6.3
 - SQLite3 database lorem.db
 - минимального стартового скрипта
 
+Сценарий
+
     git clone https://github.com/sadsoldier/spring
     cd spring
     ./configure --prefix=/usr
