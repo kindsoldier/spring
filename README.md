@@ -53,7 +53,7 @@ Gradle: 6.3
     RUN apt-get clean
     CMD daemon -- /usr/bin/java -jar /usr/lib/lorem/lorem-0.0.1.jar
 
-## Bocker build and run
+## Docker build and run
 
     docker build -t lorem .
     docker run -p 8080:8080 -d lorem
